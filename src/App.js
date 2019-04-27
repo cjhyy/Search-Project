@@ -13,14 +13,28 @@ class App extends React.Component{
     pageIndex:1,
     search:'',
     query:'&q=',
+    err:''
   }
   async getRecipes(){
+    
     try{
        const data=await fetch(this.state.url)
     const jsonData = await data.json()
-    this.setState({
+    console.log(jsonData);
+    if (jsonData.error){
+      this.setState({
+        err:'网站免费API每天限制请求50次,目前已被限制'
+      })
+    }
+    if(jsonData.recipes.length === 0){
+      this.setState(()=>{
+        return {error:`sorry,${this.state.search} not return any results` }
+      })
+    } else
+    { this.setState({
       recipes:jsonData.recipes
-    })
+    })}
+   
 
     }catch(error){
       console.log(error);
@@ -39,6 +53,8 @@ class App extends React.Component{
           value={this.state.search}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          error={this.state.error}
+          err={this.state.err}
           /> )
           case 0:
           return (<RecipeDetails id={this.state.details_id}  handleIndex={this.handleIndex}/>  )

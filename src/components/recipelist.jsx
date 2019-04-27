@@ -4,7 +4,7 @@ import RecipeSearch from './recipesearch'
 export default class Recipelist extends Component {
 
   render() {
-        const {recipes,handleDetails,value,handleSubmit,handleChange}=this.props
+        const {recipes,handleDetails,value,handleSubmit,handleChange,error,err}=this.props
         // console.log(recipes.length);
         
     return (
@@ -21,11 +21,11 @@ export default class Recipelist extends Component {
                         recipe list
                     </h1>
                   </div>
-
+<div className='col-10'></div>
                   <div className="row">
-                      {recipes.map((recipe,index)=>{
-                          {/* console.log(recipe);
-                          console.log(index); */}
+                      {err?<h1 className="text-danger text-center">{err}</h1>:
+                        error?<h2 className="text-danger text-center">{error}</h2>:recipes.map((recipe,index)=>{
+                    
                           
                           return(
                               <Recipe key={recipe.recipe_id}
@@ -35,6 +35,7 @@ export default class Recipelist extends Component {
                           )
 
                       })}
+                      
                   </div>
               </div>
           </div>
